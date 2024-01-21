@@ -55,7 +55,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void deleteEmployee(int id) {
+        try (Connection conn = JdbcConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(DELETE_FROM_EMPLOYEES)) {
 
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
