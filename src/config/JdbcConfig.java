@@ -16,4 +16,18 @@ public class JdbcConfig {
            throw  new RuntimeException(e);
        }
     }
+    public static  void createTable() throws SQLException {
+        try(Connection conn = getConnection()) {
+            String createTableSQL= "CREATE TABLE IF NOT EXISTS employees" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "name VARCHAR(255)," +
+                    "salary DECIMAL(10, 2))";
+            try (var stmt= conn.createStatement()){
+                stmt.executeUpdate(createTableSQL);
+                System.out.println("Table Employees created successfully");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
