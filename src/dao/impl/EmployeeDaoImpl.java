@@ -5,9 +5,8 @@ import dao.EmployeeDao;
 import dao.dto.EmployeeDto;
 import domain.Employee;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDaoImpl implements EmployeeDao {
@@ -68,6 +67,36 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public List<EmployeeDto> getAllEmployees() {
-        return null;
+        List<Employee> employees = new ArrayList<>();
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+
+        try (Connection conn = JdbcConfig.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(SELECT_FROM_EMPLOYEES)) {
+
+            // Iteramos el resultSet y guardamos cada empleado recuperado de la BD en una lista
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                double salary = rs.getDouble("salary");
+                employees.add(
+                        new Employee(id, name, salary)
+                );
+            }
+
+            // Mapeamos la lista de empleados (entidades recuperadas de la BD) a una lista de dto's
+            for (Employee employee : employees) {
+                employeeDtos.add(
+                        new EmployeeDto(
+                                employee.getName(),
+                                employee.getSalary())
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employeeDtos;
     }
 }
