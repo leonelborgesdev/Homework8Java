@@ -16,7 +16,7 @@ public class JdbcConfig {
            throw  new RuntimeException(e);
        }
     }
-    public static  void createTable() throws SQLException {
+    public static  void createTable(){
         try(Connection conn = getConnection()) {
             String createTableSQL= "CREATE TABLE IF NOT EXISTS employees" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
