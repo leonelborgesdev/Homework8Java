@@ -40,7 +40,17 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void updateEmployee(Employee employee) {
+        try (Connection conn = JdbcConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(UPDATE_EMPLOYEES)) {
 
+            pstmt.setString(1, employee.getName());
+            pstmt.setDouble(2, employee.getSalary());
+            pstmt.setInt(3, employee.getId());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
