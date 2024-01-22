@@ -17,6 +17,15 @@ public class Main {
         EmployeeDto emp1=new EmployeeDto("John Doe", 50000.0);
         dao.insertEmployee(emp1);
 
+        // Actualizar salario de un empleado existente
+        /*Employee empToUpdate = dao.getAllEmployees().get(0);
+        empToUpdate.setSalary(55000.0);
+        dao.updateEmployee(empToUpdate);*/
+
+        // Eliminar un empleado
+        //dao.deleteEmployee(1);
+
+        // Obtener y mostrar todos los empleados en la consola
         List<EmployeeDto> employeeDtos= dao.getAllEmployees();
         for (EmployeeDto employee : employeeDtos){
             System.out.println("-> "+ employee.getName() + " | "+ employee.getSalary());
